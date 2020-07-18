@@ -9,49 +9,44 @@ app.config.from_object(__name__)
 
 BOOKS = [
     {
-        'Title': 'The Witcher: Blood of Elves',
-        'Author': 'Andrzej Sapkowski',
-        'Rating': 94
+        'title': 'The Witcher: Blood of Elves',
+        'author': 'Andrzej Sapkowski',
+        'rating': 94
     },
     {
-        'Title': 'The Witcher: Time of Contempt',
-        'Author': 'Andrzej Sapkowski',
-        'Rating': 98
+        'title': 'The Witcher: Time of Contempt',
+        'author': 'Andrzej Sapkowski',
+        'rating': 98
     },
     {
-        'Title': 'The Witcher: Baptism of Fire',
-        'Author': 'Andrzej Sapkowski',
-        'Rating': 95
+        'title': 'The Witcher: Baptism of Fire',
+        'author': 'Andrzej Sapkowski',
+        'rating': 95
     },
     {
-        'Title': 'The Witcher: The Tower of the Swallow',
-        'Author': 'Andrzej Sapkowski',
-        'Rating': 94
+        'title': 'The Witcher: The Tower of the Swallow',
+        'author': 'Andrzej Sapkowski',
+        'rating': 94
     },
     {
-        'Title': 'The Witcher: Lady of the Lake',
-        'Author': 'Andrzej Sapkowski',
-        'Rating': 92
+        'title': 'The Witcher: Lady of the Lake',
+        'author': 'Andrzej Sapkowski',
+        'rating': 92
     },
     {
-        'Title': 'The Witcher: The Last Wish',
-        'Author': 'Andrzej Sapkowski',
-        'Rating': 93
+        'title': 'The Witcher: The Last Wish',
+        'author': 'Andrzej Sapkowski',
+        'rating': 93
     },
     {
-        'Title': 'The Witcher: Season of Storms',
-        'Author': 'Andrzej Sapkowski',
-        'Rating': 98
+        'title': 'The Witcher: Season of Storms',
+        'author': 'Andrzej Sapkowski',
+        'rating': 98
     },
 ]
 
 # enable cors
 CORS(app, resources={r'/*': {'origins': '*'}})
-
-# sanity check route
-# @app.route('/ping', methods=['GET'])
-# def ping_pong():
-#     return jsonify('pong!')
 
 
 @app.route('/books', methods=['GET'])
