@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 
 
@@ -49,12 +49,20 @@ BOOKS = [
 CORS(app, resources={r'/*': {'origins': '*'}})
 
 
-@app.route('/books', methods=['GET'])
+@app.route('/books', methods=['GET', 'POST'])
 def all_books():
-    return jsonify({
-        'status': 'success',
-        'books': BOOKS
-    })
+    response_obj = {'status': 'success'}
+    if request.method == 'POST':
+        post_data = request.get_json()
+        BOOKS.append({
+            'title': post_data.get('title'),
+            'author': post_data.get('author'),
+            'rating': post_data.get('rating')
+        })
+        response_obj['message'] = 'Title added'
+    else:
+        response_obj['books'] = BOOKS
+    return jsonify(response_obj)
 
 
 if __name__ == "__main__":
