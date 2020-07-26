@@ -6,23 +6,23 @@
         <hr />
         <br />
         <alert :message="message" v-if="showMessage"></alert>
-        <br />
+
         <div class="text-center">
           <button type="button" class="btn btn-primary btn-sm" v-b-modal.book-modal>Add Book</button>
         </div>
         <br />
         <div class="input-group mb-3">
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Enter title, author, or rating"
-            aria-label="Search"
-            aria-describedby="button-addon2"
-          />
           <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
+            <input
+              id="button-addon2"
+              class="btn btn-outline-secondary"
+              type="text"
+              v-model="search"
+              placeholder="Search title.."
+            />
           </div>
         </div>
+
         <table class="table table-hover">
           <thead>
             <tr>
@@ -34,7 +34,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(book, index) in books" :key="index">
+            <tr v-for="(book, index) in filteredBooks" :key="index">
               <!-- Placeholder Data -->
               <td>{{ book.title }}</td>
               <td>{{ book.author }}</td>
@@ -85,7 +85,7 @@
             placeholder="Enter author"
           ></b-form-input>
         </b-form-group>
-        <b-form-group id="form-rating-group" label="rating:" label-for="form-rating-input">
+        <b-form-group id="form-rating-group" label="Rating:" label-for="form-rating-input">
           <b-form-input
             id="form-rating-input"
             type="text"
@@ -96,7 +96,7 @@
         </b-form-group>
         <b-form-group id="form-read-group">
           <b-form-checkbox-group v-model="addBookForm.read" id="form-checks">
-            <b-form-checkbox value="true">Have you read this book?</b-form-checkbox>
+            <b-form-checkbox input type="checkbox" value="true">Have you read this book?</b-form-checkbox>
           </b-form-checkbox-group>
         </b-form-group>
         <b-button type="submit" variant="primary">Submit</b-button>
@@ -136,11 +136,13 @@
             placeholder="Enter rating"
           ></b-form-input>
         </b-form-group>
+
         <b-form-group id="form-read-edit-group">
           <b-form-checkbox-group v-model="editForm.read" id="form-checks">
-            <b-form-checkbox value="true">Have you read this book?</b-form-checkbox>
+            <b-form-checkbox input type="checkbox" value="true">Have you read this book?</b-form-checkbox>
           </b-form-checkbox-group>
         </b-form-group>
+
         <b-button-group>
           <b-button type="submit" variant="primary">Update</b-button>
           <b-button type="reset" variant="danger">Cancel</b-button>
@@ -158,6 +160,7 @@ import Alert from './Alert.vue'
 export default {
   data() {
     return {
+      search: '',
       books: [],
       addBookForm: {
         title: '',
@@ -200,6 +203,7 @@ export default {
           this.getBooks()
           this.message = 'Title added successfully'
           this.showMessage = true
+          setTimeout(() => (this.showMessage = false), 2000)
         })
         .catch((error) => {
           // eslint-disable-next-line
@@ -218,6 +222,7 @@ export default {
           this.getBooks()
           this.message = 'Book removed!'
           this.showMessage = true
+          setTimeout(() => (this.showMessage = false), 2000)
         })
         .catch((error) => {
           // eslint-disable-next-line
@@ -289,12 +294,20 @@ export default {
         this.getBooks()
         this.message = 'Book updated!'
         this.showMessage = true
+        setTimeout(() => (this.showMessage = false), 2000)
       })
       .catch((error) => {
         // eslint-disable-next-line
         console.error(error)
         this.getBooks()
       })
+  },
+  computed: {
+    filteredBooks() {
+      return this.books.filter((book) => {
+        return book.title.toLowerCase().match(this.search)
+      })
+    },
   },
 }
 </script>
